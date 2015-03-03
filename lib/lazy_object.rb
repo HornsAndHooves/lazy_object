@@ -9,11 +9,11 @@
 # lazy = LazyObject.new { VeryExpensiveObject.new } # At this point the VeryExpensiveObject hasn't been initialized yet.
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject
-  
+
   def self.version
-    '0.0.1'
+    '0.0.2'
   end
-  
+
   def initialize(&callable)
     @__callable__ = callable
   end
@@ -26,5 +26,18 @@ class LazyObject
   # Forwards all method calls to the target object.
   def method_missing(method_name, *args, &block)
     __target_object__.send(method_name, *args, &block)
+  end
+
+  def present?
+    !blank?
+  end
+
+  def blank?
+    __target_object__.respond_to?(:empty?) ? !!__target_object__.empty? : !__target_object__
+  end
+
+  # Forwards method calls to the target object.
+  def nil?
+    __target_object__.nil?
   end
 end
