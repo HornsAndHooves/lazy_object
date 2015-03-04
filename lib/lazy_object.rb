@@ -8,10 +8,10 @@
 #
 # lazy = LazyObject.new { VeryExpensiveObject.new } # At this point the VeryExpensiveObject hasn't been initialized yet.
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
-class LazyObject
+class LazyObject < BasicObject
 
   def self.version
-    '0.0.2'
+    '0.0.1'
   end
 
   def initialize(&callable)
