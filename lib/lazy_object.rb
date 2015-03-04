@@ -27,17 +27,4 @@ class LazyObject < BasicObject
   def method_missing(method_name, *args, &block)
     __target_object__.send(method_name, *args, &block)
   end
-
-  def present?
-    !blank?
-  end
-
-  def blank?
-    __target_object__.respond_to?(:empty?) ? !!__target_object__.empty? : !__target_object__
-  end
-
-  # Forwards method calls to the target object.
-  def nil?
-    __target_object__.nil?
-  end
 end
