@@ -26,4 +26,8 @@ RSpec.describe LazyObject do
     expect( lazy_object.method_with_yield(:baz) { |foo| "--#{foo}--" } ).to eq('--baz--')
   end
 
+  it 'should return correct value when comparing' do
+    one = LazyObject.new { 1 }
+    expect(one).to eq(1)
+  end
 end
