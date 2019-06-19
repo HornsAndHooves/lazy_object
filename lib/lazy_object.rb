@@ -9,8 +9,6 @@
 # lazy = LazyObject.new { VeryExpensiveObject.new } # At this point the VeryExpensiveObject hasn't been initialized yet.
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject < BasicObject
-  include ::Comparable
-
   def self.version
     '0.0.3'
   end
@@ -19,8 +17,16 @@ class LazyObject < BasicObject
     @__callable__ = callable
   end
 
-  def <=>(item)
-    __target_object__ <=> item
+  def ==(item)
+    __target_object__ == item
+  end
+
+  def !=(item)
+    __target_object__ != item
+  end
+
+  def !
+    !__target_object__
   end
 
   # Cached target object.
