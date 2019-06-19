@@ -26,4 +26,25 @@ RSpec.describe LazyObject do
     expect( lazy_object.method_with_yield(:baz) { |foo| "--#{foo}--" } ).to eq('--baz--')
   end
 
+  context "equality operators" do
+    it 'should return correct value when comparing' do
+      one = LazyObject.new { 1 }
+      expect(one).to eq(1)
+    end
+
+    specify "==" do
+      foo = LazyObject.new { :foo }
+      expect(foo == :foo).to eq(true)
+    end
+
+    specify "!=" do
+      foo = LazyObject.new { :foo }
+      expect(foo != :foo).to eq(false)
+    end
+
+    specify "!" do
+      foo = LazyObject.new { :foo }
+      expect(!foo).to eq(false)
+    end
+  end
 end
