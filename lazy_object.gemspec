@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description            = %q{It's an object wrapper that forwards all calls to the reference object. This object is not created until the first method dispatch.}
   spec.homepage               = ""
   spec.license                = "MIT"
-  spec.required_ruby_version  = ">= 2.7.0"
+  spec.required_ruby_version  = ">= 3.0.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
