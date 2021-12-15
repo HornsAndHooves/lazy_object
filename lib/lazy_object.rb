@@ -10,7 +10,7 @@
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject < BasicObject
   def self.version
-    '0.0.4'
+    '0.1.0'
   end
 
   def initialize(&callable)
