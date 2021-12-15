@@ -17,12 +17,12 @@ class LazyObject < BasicObject
     @__callable__ = callable
   end
 
-  def ==(item)
-    __target_object__ == item
+  def ==(other)
+    __target_object__ == other
   end
 
-  def !=(item)
-    __target_object__ != item
+  def !=(other)
+    __target_object__ != other
   end
 
   def !
@@ -35,7 +35,7 @@ class LazyObject < BasicObject
   end
 
   # Forwards all method calls to the target object.
-  def method_missing(method_name, *args, &block)
-    __target_object__.send(method_name, *args, &block)
+  def method_missing(method_name, ...)
+    __target_object__.send(method_name, ...)
   end
 end
