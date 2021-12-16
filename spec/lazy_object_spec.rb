@@ -12,11 +12,19 @@ RSpec.describe LazyObject do
     def method_with_kwargs(**kwargs)
       kwargs
     end
+
+    def method_with_kwargs_and_block(**kwargs, &block)
+      block.call **kwargs
+    end
+
+    def method_with_kwargs_and_yield(**kwargs)
+      yield **kwargs
+    end
   end
 
   let(:lazy_object) {
     LazyObject.new do
-      targ = TargetObject.new
+      targ       = TargetObject.new
       targ.value = :foo
       targ
     end
@@ -34,11 +42,32 @@ RSpec.describe LazyObject do
 
   context "when target object methods use keyword arguments" do
     subject(:target_method) { lazy_object.method_with_kwargs(foo: "bar") }
+
     let(:lazy_object) { LazyObject.new { TargetObject.new } }
 
     it "should not raise an exception and properly delegate to the target object" do
       expect { target_method }.not_to raise_exception
-      expect(target_method).to eq({foo: "bar"})
+      expect(target_method).to eq({ foo: "bar" })
+    end
+  end
+
+  context "when target object uses kwargs and a block" do
+    let(:lazy_object) { LazyObject.new { TargetObject.new } }
+
+    it "will delegate the call to the block" do
+      result = lazy_object.method_with_kwargs_and_block(foo: "bar") { |foo:| { bar: foo.reverse } }
+
+      expect(result).to eq({ bar: "rab" })
+    end
+  end
+
+  context "when target object uses kwargs and an implicit block" do
+    let(:lazy_object) { LazyObject.new { TargetObject.new } }
+
+    it "will delegate the call to the block" do
+      result = lazy_object.method_with_kwargs_and_yield(foo: "bar") { |foo:| { bar: foo.reverse } }
+
+      expect(result).to eq({ bar: "rab" })
     end
   end
 
