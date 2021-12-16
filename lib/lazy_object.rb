@@ -10,19 +10,19 @@
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject < BasicObject
   def self.version
-    '0.0.3'
+    '0.1.0'
   end
 
   def initialize(&callable)
     @__callable__ = callable
   end
 
-  def ==(item)
-    __target_object__ == item
+  def ==(other)
+    __target_object__ == other
   end
 
-  def !=(item)
-    __target_object__ != item
+  def !=(other)
+    __target_object__ != other
   end
 
   def !
@@ -35,7 +35,7 @@ class LazyObject < BasicObject
   end
 
   # Forwards all method calls to the target object.
-  def method_missing(method_name, *args, &block)
-    __target_object__.send(method_name, *args, &block)
+  def method_missing(method_name, ...)
+    __target_object__.send(method_name, ...)
   end
 end

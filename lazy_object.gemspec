@@ -4,14 +4,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'lazy_object'
 
 Gem::Specification.new do |spec|
-  spec.name          = "lazy_object"
-  spec.version       = LazyObject.version
-  spec.authors       = ["Arthur Shagall", "Sergey Potapov"]
-  spec.email         = ["arthur.shagall@gmail.com"]
-  spec.summary       = %q{Lazily initialized object wrapper.}
-  spec.description   = %q{It's an object wrapper that forwards all calls to the reference object. This object is not created until the first method dispatch.}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.name                   = "lazy_object"
+  spec.version                = LazyObject.version
+  spec.authors                = ["Arthur Shagall", "Sergey Potapov"]
+  spec.email                  = ["arthur.shagall@gmail.com"]
+  spec.summary                = %q{Lazily initialized object wrapper.}
+  spec.description            = %q{It's an object wrapper that forwards all calls to the reference object. This object is not created until the first method dispatch.}
+  spec.homepage               = ""
+  spec.license                = "MIT"
+  spec.required_ruby_version  = ">= 3.0.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
