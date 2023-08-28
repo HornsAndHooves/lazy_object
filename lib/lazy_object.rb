@@ -31,7 +31,11 @@ class LazyObject < BasicObject
 
   # Cached target object.
   def __target_object__
-    @__target_object__ ||= @__callable__.call
+    if defined?(@__target_object__)
+      @__target_object__
+    else
+      @__target_object__ = @__callable__.call
+    end
   end
 
   # Forwards all method calls to the target object.

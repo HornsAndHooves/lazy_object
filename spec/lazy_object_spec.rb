@@ -71,6 +71,24 @@ RSpec.describe LazyObject do
     end
   end
 
+  context "when target object evaluates to a falsy value" do
+    let(:lazy_object) { LazyObject.new { TargetObject.new } }
+
+    it "evaluates the block exactly once for false" do
+      TargetObject.should_receive(:new).once.and_return(false)
+      3.times do
+        expect(lazy_object).to eq(false)
+      end
+    end
+
+    it "evaluates the block exactly once for nil" do
+      TargetObject.should_receive(:new).once.and_return(nil)
+      3.times do
+        expect(lazy_object).to eq(nil)
+      end
+    end
+  end
+
   context "equality operators" do
     it "should return correct value when comparing" do
       one = LazyObject.new { 1 }
