@@ -10,7 +10,7 @@
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject < BasicObject
   def self.version
-    '0.1.0'
+    '0.2.0'
   end
 
   def initialize(&callable)
@@ -31,7 +31,11 @@ class LazyObject < BasicObject
 
   # Cached target object.
   def __target_object__
-    @__target_object__ ||= @__callable__.call
+    if defined?(@__target_object__)
+      @__target_object__
+    else
+      @__target_object__ = @__callable__.call
+    end
   end
 
   # Forwards all method calls to the target object.
