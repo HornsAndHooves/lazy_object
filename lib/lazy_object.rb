@@ -10,7 +10,7 @@
 # lazy.get_expensive_results(foo, bar) # Initializes VeryExpensiveObject and calls 'get_expensive_results' on it, passing in foo and bar
 class LazyObject < BasicObject
   def self.version
-    '0.2.0'
+    '0.3.0'
   end
 
   def initialize(&callable)
@@ -38,8 +38,14 @@ class LazyObject < BasicObject
     end
   end
 
+  def respond_to_missing?(method_name, include_private = false)
+    __target_object__.respond_to?(method_name, include_private)
+  end
+
+  alias respond_to? respond_to_missing?
+
   # Forwards all method calls to the target object.
   def method_missing(method_name, ...)
-    __target_object__.send(method_name, ...)
+	__target_object__.public_send(method_name, ...)
   end
 end

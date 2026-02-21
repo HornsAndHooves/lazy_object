@@ -20,6 +20,10 @@ RSpec.describe LazyObject do
     def method_with_kwargs_and_yield(**kwargs)
       yield **kwargs
     end
+
+    private def private_method_one_pos_arg(foo)
+      foo
+    end
   end
 
   let(:lazy_object) {
@@ -86,6 +90,35 @@ RSpec.describe LazyObject do
       3.times do
         expect(lazy_object).to eq(nil)
       end
+    end
+  end
+
+  context "respond_to?" do
+    let(:lazy_object) { LazyObject.new { TargetObject.new } }
+
+    it "responds to methods defined on the target object" do
+      expect(lazy_object.respond_to?(:value)).to eq(true)
+      expect(lazy_object.respond_to?(:method_with_yield)).to eq(true)
+    end
+
+    it "does not respond to methods not defined on the target object" do
+      expect(lazy_object.respond_to?(:nonexistent_method)).to eq(false)
+    end
+
+    it "does not respond to private methods by default" do
+      expect(lazy_object.respond_to?(:private_method_one_pos_arg)).to eq(false)
+    end
+
+    it "responds to private methods when include_private is true" do
+      expect(lazy_object.respond_to?(:private_method_one_pos_arg, true)).to eq(true)
+    end
+  end
+
+  context "private methods on the target object" do
+    let(:lazy_object) { LazyObject.new { TargetObject.new } }
+
+    it "raises NoMethodError when calling a private method" do
+      expect { lazy_object.private_method_one_pos_arg(:bar) }.to raise_error(::NoMethodError)
     end
   end
 
